@@ -1,0 +1,50 @@
+spine 笔记	<所有记录基于自己的理解，可能有不少偏差，但聊胜于无，先做记录>
+
+1.PolygonBatch.h 
+	PolygonBatch::flush		负责多边形的渲染，及渲染模式的设置
+	PolygonBatch::add		填充一个多边形
+
+
+2.spSkeletonData.h 读取json、alats文件转化成数据，其中包含： <定义了一个结构体 spSkeletonData >
+	const char* hash; 			hash 值
+	float width, height;		尺寸+
+
+	int bonesCount;				骨骼数量
+	spBoneData** bones;			骨骼集合
+
+	int slotsCount;				贴片数量
+	spSlotData** slots;			贴片集合
+
+	int skinsCount;				皮肤数量
+	spSkin** skins;				皮肤集合
+	spSkin* defaultSkin;		默认皮肤？？
+
+	int eventsCount;			帧事件数量
+	spEventData** events;		事件集合
+
+	int animationsCount;		动作数量
+	spAnimation** animations;	动作集合
+
+	int ikConstraintsCount;					--暂不详
+	spIkConstraintData** ikConstraints;		--暂不详
+
+	并提供了多种查询函数：
+
+	1.查询指定名字的骨骼点，返回骨骼点或下标
+	2.查询贴片 slot
+	3.查询皮肤、事件、动作
+
+	注：spSkeletonData结构体中设计的个对象又是其他的结构体
+
+	spSkeletonJson 通过读取 json文件 和alts文件创建，spSkeletonJson_readSkeletonDataFile() 接口
+
+
+4.spSkeleton.h  骨架  
+	结构体内包含spSkeletonData ，
+	一个spine对象里面包含一个 spSkeleton 对象，应该涵盖了所有的骨骼数据了<目前只是猜测，不确定是不是这样>
+
+
+3.SkeletonRenderer.h 
+	读取数据创建spine的实现
+
+
