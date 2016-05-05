@@ -1,0 +1,114 @@
+
+C10:分类和协议
+	1.分类：向现有类进行扩展，而不用改变原类的文件，比集成扩展更加灵活
+		#import "classOrg"
+		@interface 	classOrg (catalogOrg) //catalogOrg 分类的名字
+		注: 分类中不允许扩展属性，只能对原有的属性进行操作扩展... 分类不仅会影响现有类所有的子类尽量避免<复写>源文件中的函数，如果需要复
+		写，则可以通过<继承>的机制来实现,而不是采用分类的形式
+
+		在.m文件中声明的 属性和函数为私有<Private>，在.h中声明的才是共有的<Public>
+
+	2.协议：协议中包含一系列没有实现的方法，由遵循协议的类去实现该系列方法<类似于代理>
+		协议中的方法有些事选择实现，有些是"必须实现"
+		@protocol ProtoName <ProtocolOther>//定义一个协议，ProtoName为协议的名字
+			method1... //协议的一系列函数声明
+			method2...
+		@optional
+			method3... //optional 之后列出的方法为选择实现的
+		@end
+
+		注：协议同样可以遵循其他协议，如上 ProtoName 遵循ProtocolOther ，所有遵循
+			 ProtoName则必须实现遵循ProtocolOther的非可选方法
+
+			分类同样可以遵循协议
+
+	3.代理：
+		协议也是一种两个类之间的接口定义，定义协议的类可以看做是吧协议定义的方法代理给实现他们的类。
+
+		非正式协议：
+			非正式协议本质上是分类；仅仅是一个名字下的一组方法
+			定义非正式协议的类不用实现这些方法，选择实现这些协议的子类需要在接口部分重新声明这些方法，同时还要实现其中的一个或多个 @optional 可以取代取代分正式协议.
+
+	4.合成对象：
+		即定义一个新的类型，该类型中包含需要扩展的类的对象，然后返回该对象作为新类的指针
+
+C14:基础数据对象
+	1.NSSet <集合类>
+		NSMutableSet
+		NSOrderSet
+		NSIndexSet
+
+C15:文件操作
+	1. C++操作文件夹以子文件的函数 
+		#include <io.h> 
+		http://www.cnblogs.com/Binhua-Liu/archive/2010/06/06/1752627.html
+		bool PUMaterialCache::loadMaterialsFromSearchPaths( const std::string &fileFolder ) <cocos2d-x>
+
+C:19 归档：
+	1. NSArray,NSString ,NSNumber .... 都有 writeToFile:接口把自己携带的数据写入
+		文件 <XML文件>
+	2.NSKeyedArchiver
+		[NSKeyedArchiver archiverRootObject:toFile:] 可以把NSDictionary,NSArray, 写入文件，对应
+		[NSKeyedArchiver unarchiverObjectWithFile:] 把数据从归档中解出来
+
+		3.NSObject 系列子类如果需要能够归档接档，需要遵循NSCode 协议，然后实现
+		协议函数，
+	3.使用NSData 创建自定义档案
+
+	4.使用归档，解挡实现对象的deep copy
+		注：归档解挡过程中产生的是对象的新副本
+		arrData = [NSKeyedArchiver archiverDataWithRootObject:array1] 把对象归档到内存
+		array2 = [NSKeyedArchiver unarchiverObjectWithData:arrData] 从内存中解挡对象
+
+		或者 [NSKeyedArchiver unarchiverObjectWithData:[NSKeyedArchiver archiverDataWithRootObject:array1] ] 
+
+
+附录：
+
+	strong = retain
+	weak = assign
+	位运算...
+	1.按位与：(and 关系)
+		a1&a2 ,比较两个数的二进制表示，只有相同位上都为1，则结果二进制对应位值=1，否则值=0
+				a1 = 1001
+				a2 = 0101
+		a3 = a1&a2 = 0001
+		a3 &= a2  效果等同于 a3 = a3 & a2
+
+	2.按位或 (or 关系)
+		a1|a2 ,比较两个数的二进制表示，只要有一个数相同位上为1，则结果二进制对应位值=1，否则值=0
+				a1 = 1001
+				a2 = 0101
+		a3 = a1|a2 = 1111
+		a3 |= a2  效果等同于 a3 = a3 | a2
+
+	3.按位异或
+		a1^a2 ,比较两个数的二进制表示，两个数中只有一个数相同位上为1<任意一个，但
+		不能两个同时为1>，则结果二进制对应位值=1，否则值=0
+
+				a1 = 1001
+				a2 = 0101
+		a3 = a1^a2 = 1100
+		a3 ^= a2  效果等同于 a3 = a3 ^ a2
+
+	4.一次求反
+		对运算是的位进行翻转，数位行对应1翻转成0，对应0翻转成1
+		 a1 = 1010
+		~a1 = 0101
+
+	5.向左移位运算符
+		<< 数据之中包含的为向左移动，如果移动的位数>数据的位数，则数据项的高位数
+		据<数据的左侧的数据>将丢失，、低位移入的数据总是0
+		a1 = 01100101
+		a1 << 1 = 11001010
+		a1 << 7 = 00000000
+
+	6.向右移位运算符
+		>> 数据之中包含的为向右移动，低位数据将丢失 如果移动的位数>数据的位数，则
+		数据项的低位数据<数据的右侧的数据>将丢失，高位移入的数据总是0
+		<高位移除1还是0 取决于操作数的符号；无符号数据移入0；符号为1则移入1，
+		符号为0则移入0>
+
+		a1 = 01100101
+		a1 >> 1 = 00110010
+		a1 >> 3 = 00000110
