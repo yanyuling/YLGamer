@@ -1,0 +1,10 @@
+1. lua和OC直接进行数据交互，lua和Java的数据交互，先通过lua与C++交互，然后C++和Java通过
+	JNI进行数据交互
+
+2. C++与Lua的常规数据交互，流程如下
+	1. lua端注册的函数句柄，就可以通过 handler = ScriptHandlerMgr::getInstance()->getObjectHandler( ) 获取到
+	2. 通过 CommonScriptData 构建传递到lua层面的数据， <可根据自己事件的类型选择不同
+		的数据类型，详细参考引擎使用>
+	3. 利用上一步的数据构建 ScriptEvent		<可根据自己事件的类型选择不同的数据
+		类型，详细参考引擎使用>
+	4. 再通过 发送事件<事件携带了数据哦~> ScriptEngineManager::getInstance()->getScriptEngine()->sendEvent(&event);
