@@ -8,3 +8,40 @@
 	3. 利用上一步的数据构建 ScriptEvent		<可根据自己事件的类型选择不同的数据
 		类型，详细参考引擎使用>
 	4. 再通过 发送事件<事件携带了数据哦~> ScriptEngineManager::getInstance()->getScriptEngine()->sendEvent(&event);
+
+
+3. C++ 执行Lua之后的函数示例
+	
+	static int SendBinaryMessageToLua(int nHandler, int nProtocol, const char* pBytes)
+	{
+		if (nHandler <= 0) 
+		{
+			return 0;
+		}
+	
+		if (nullptr == ScriptEngineManager::getInstance()->getScriptEngine()) 
+		{
+			return 0;
+		}
+	
+		LuaStack *pStack = LuaEngine::getInstance()->getLuaStack();
+		if (nullptr == pStack) 
+		{
+			return 0;
+		}
+	
+		lua_State *tolua_s = pStack->getLuaState();
+		if (nullptr == tolua_s) 
+		{
+			return 0;
+		}
+	
+		int nRet = 0;
+	
+		pStack->pushInt(nProtocol);
+		pStack->pushString(pBytes);
+	
+		nRet = pStack->executeFunctionByHandler(nHandler, 2);
+		pStack->clean();
+		return nRet;
+	}
