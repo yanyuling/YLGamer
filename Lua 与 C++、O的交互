@@ -45,3 +45,21 @@
 		pStack->clean();
 		return nRet;
 	}
+
+
+4. engine->executeScriptFile("src/main.lua")  //Lua 执行给定文件中的代码
+
+    /*Execute script code contained in the given string*/
+    
+    virtual int executeString(const char* codes) override;
+   
+    /*
+     * Execute a scripted global function.
+     * The function should not take any parameters and should return an integer.
+     *
+     * @param functionName String object holding the name of the function, in the global script environment, that is to be executed.
+     * @return The integer value returned from the script function.
+     */
+     
+   virtual int executeGlobalFunction(const char* functionName) override;
+   
