@@ -1,0 +1,6 @@
+1.图片资源的读取走了 getTextureCache()->addImage() 接口
+
+2.代码，lua文件的读取走了FileUtils  
+		static Data getData(const std::string& filename, bool forString)
+		unsigned char* FileUtils::getFileData(const std::string& filename, const char* mode, ssize_t *size)
+		需要在两个函数的最后 对char字符流进行解密即可
