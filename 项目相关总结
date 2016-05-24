@@ -1,0 +1,18 @@
+1.资源加密
+  a.图片资源的读取走了 getTextureCache()->addImage() 接口
+
+  b.代码，lua文件的读取走了FileUtils  
+  		static Data getData(const std::string& filename, bool forString)
+  		unsigned char* FileUtils::getFileData(const std::string& filename, const char* mode, ssize_t *size)
+  		需要在两个函数的最后 对char字符流进行解密即可
+  		
+2.性能优化
+      a.资源异步加载<加载过程中 生成中间文件 image，会使内存飙升>
+      b.优化图片资源色深，降低图片大小 <RGBA888->RBG565 >
+      c.选择合适的图片格式 <IOS 对PVR 支持优异，提升加载速度的同时降低图片大小，Android的支持则不那么好>
+      
+      
+3.
+4.
+5.
+6.
