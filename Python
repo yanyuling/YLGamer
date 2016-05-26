@@ -1,1 +1,22 @@
 
+class A(object):
+	def __init__(self, arg):
+		super(A, self).__init__()
+		self.arg = arg
+		print("Init Class A")
+	def description(self):
+		print("This is Class A")
+
+class B(A):
+	def __init__(self, arg):
+		super(B, self).__init__(arg)  	
+		self.arg = arg
+		print("Init Class B")
+		print("self.arg: " + self.arg)
+	def description(self):  			
+		print("This is Class B")
+
+if __name__ == "__main__":
+	ObjA = A("A")
+	ObjB = B("B")
+	ObjB.description()
