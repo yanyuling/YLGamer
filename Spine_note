@@ -67,6 +67,17 @@ spine 笔记	<所有记录基于自己的理解，可能有不少偏差，但聊
 		spAttachmentLoader_dispose(attachmentLoader);
 		return ret;
 	}
+	/*
+	slotName: slot名字
+	attachmentName：
+	regionName：需要用到的图片资源的名字
+	*/
+	bool SkeletonRenderer::attachmentRegion(const std::string& slotName, const std::string& attachmentName, const std::string& regionName)
+	{
+	    spAttachment*attachment = getAttachment(slotName, attachmentName);
+	    return update_attachment(attachment, regionName);
+	}
+
 
 	local bodyType = self.avatarModel:addAvatarBodyType(item)
 	local bodyLoaction = string.split(item.body_loaction,"")
