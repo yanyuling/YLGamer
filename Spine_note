@@ -38,13 +38,43 @@ spine 笔记	<所有记录基于自己的理解，可能有不少偏差，但聊
 
 	spSkeletonJson 通过读取 json文件 和alts文件创建，spSkeletonJson_readSkeletonDataFile() 接口
 
-
+3.SkeletonRenderer.h 
+	读取数据创建spine的实现
+	
 4.spSkeleton.h  骨架  
 	结构体内包含spSkeletonData ，
 	一个spine对象里面包含一个 spSkeleton 对象，应该涵盖了所有的骨骼数据了<目前只是猜测，不确定是不是这样>
 
 
-3.SkeletonRenderer.h 
-	读取数据创建spine的实现
 
 
+
+5.Spine换装机制实现 /* slotName: slot名字 attachmentName： regionName：需要用到的图片资源的名字 / bool SkeletonRenderer::attachmentRegion(const std::string& slotName, const std::string& attachmentName, const std::string& regionName) { spAttachmentattachment = getAttachment(slotName, attachmentName); return update_attachment(attachment, regionName); }
+	bool SkeletonRenderer::update_attachment(spAttachmentattachment, const std::string& regionName)
+	{
+		if (!attachment) {
+		return false;
+		}
+		FREE(attachment->name);
+		FREE(attachment->path);
+		MALLOC_STR(attachment->name, regionName.c_str());
+		MALLOC_STR(attachment->path, regionName.c_str());
+		spAttachmentLoader attachmentLoader = SUPER(spAtlasAttachmentLoader_create(_atlas));
+		bool ret = false;
+		if (spAttachmentLoader_initAttachment(attachmentLoader, attachment)==0) {
+		ret = true;
+		}
+		spAttachmentLoader_dispose(attachmentLoader);
+		return ret;
+	}
+
+	local bodyType = self.avatarModel:addAvatarBodyType(item)
+	local bodyLoaction = string.split(item.body_loaction,"")
+	    	for _,k in pairs(bodyLoaction) do
+		        local nameMapping = getPartsPrototypeName(k)  --Spine部件名字
+		        local pngRes = nameMapping .. ".png"
+		        pngRes = item.decoration_res .. "/" .. pngRes --新资源的名字
+			-- printLog("Animation:decoration-->", "attachmentRegion--> pngRes: " .. pngRes)
+			self._avatar:attachmentRegion(nameMapping, nameMapping, pngRes)
+		end
+	end
