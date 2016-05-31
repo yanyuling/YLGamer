@@ -47,5 +47,32 @@ local testFunc()
 		where="cur" ,offset = 相当于文件当前点的偏移量
 		where="end" ,offset = 相当于文件结尾的偏移量
 	]]
+	
+	6.lua 处理汉字字符
+	local len  = #convertStr
+	    printLog("convertStr:  ",convertStr.."  " .. len)
+	    local left = 0
+	    local arr  = {0, 0xc0, 0xe0, 0xf0, 0xf8, 0xfc}
+	    local strTb = {}
+	    local start = 1
+	    local wordLen = 0
+	    while len ~= left do
+	        local tmp = string.byte(convertStr, start)
+	        printLog("tmp:  ", tmp)
+	        local i   = #arr
+	        while arr[i] do
+	            if tmp >= arr[i] then
+	                break
+	            end
+	            i = i - 1
+	        end
+	        wordLen = i + wordLen
+	        local tmpString = string.sub(convertStr, start, wordLen)
+	        printLog("tmpString:  ", tmpString.."  " .. tostring(#tmpString))
+	        start = start + i
+	        left = left + i
+	        strTb[#strTb + 1] = tmpString
+	    end
 
 end
+
