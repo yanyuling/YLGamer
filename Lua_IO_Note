@@ -73,6 +73,8 @@ local testFunc()
 	        left = left + i
 	        strTb[#strTb + 1] = tmpString
 	    end
-
-end
-
+	end
+	
+	7.Lua 构造原理
+	a.Lua 中的create 定义在 function.lua 中的 class函数中
+	b.调用class(),class内部调用 new() ,new内部调用 ctor() ，所以每一个lua对象构造的时候，直接调用create即可执行到 ctor()
