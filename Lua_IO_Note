@@ -80,4 +80,27 @@ local testFunc()
 	b.调用class(),class内部调用 new() ,new内部调用 ctor() ，所以每一个lua对象构造的时候，直接调用create即可执行到 ctor()
 	
 	
+	function MyLuaEnvFunc(  )
+		os.exit() --终止当前程序的执行
+		local path = os.getenv("HOME") --获取系统环境的值,返回的是变量路径“/home/lua”
+		os.execute("mkdir".. fineNale) --执行系统命令
+
+	end
+	--调试库
+	function MyLuaDebugFunc(  )
+		-- body
+	end
+
+	--内存管理
+	function MyLuaMemoryMgr(  )
+		-- body
+		int lua_gc(lua_Status s,int what,int data) --CAPI
+		collectgarbage(what [data]) --Lua API
+		--[[
+			what 是指定要做的事情
+			LUA_GCSTOP("stop")
+			LUA_GCRESTART("restart")
+			LUA_GCCLOLECT("collect")
+		]]
+	end
 end
