@@ -1,0 +1,401 @@
+using namespace std;
+class MyString
+{
+public:
+	MyString(){
+		m_data = new char[1];
+		m_data[1] = '\0';
+	}
+
+	MyString(char* charStr){
+		if (charStr == nullptr){
+			m_data = new char[1];
+			m_data[1] = '\0';
+		}else{
+			m_data = new char[strlen(charStr)+1]
+			strcpy(m_data,charStr);
+		}
+	}
+	~MyString(){
+		delete [] m_data;
+		m_data = nullptr;
+	}
+	MyString* myStrcpy(mstr1,const mstr2){
+		assert(mstr2 == nullptr || mstr1 == nullptr)
+		char* address = mstr1.m_data[1];
+		char* ptr1 = mstr1.m_data;
+		char* ptr2 = mstr2.m_data;
+		mstr1.m_data = new char[strlen(mstr2.m_data)+1];
+		while((*ptr1++ = *ptr2++) != '\0')
+		return address
+	}
+private:
+	char* m_data;
+};
+
+int strlen(const char* targetptr){
+	assert(targetptr != nullptr);
+	int len = 0;
+	while(*targetptr++ != "\0"){
+		++len;
+	}
+	return len;
+}
+
+int findSubStr(const char* baseptr,const char* subPtr)
+{
+	assert((baseptr != NULL) && (subPtr != NULL)) //必须保证条件为真才不会被打断
+	int startIdx = 0;
+	int baseLen = strlen(baseptr);
+	int subLen = strlen(subPtr);
+	for (int outIdx = startIdx; outIdx < baseLen-subLen; ++outIdx)
+	{
+		if (subPtr[0] == baseptr[outIdx]){
+			bool isFind = true;
+			for (int innerIdx = 0; innerIdx < subLen; ++innerIdx)
+			{
+				if (subPtr[innerIdx] != baseptr[outIdx+innerIdx]){
+					isFind = false;
+					break;
+				}
+			}
+			if (isFind)
+				return outIdx;
+		}
+	}
+    return -1;
+}
+//回文判断函数
+bool huiWenTest(const char* str,int len)
+{
+	assert(str!=NULL);
+	int isHUi = 1;
+	const char* startPtr = str;
+	const char* endPtr   = str+len-1;
+	while( (startPtr < endPtr)  ){
+		if (*startPtr++ != *endPtr--)
+		{
+			// isHUi = 0;
+			// break;
+			return false;
+		}
+	}
+	// return isHUi;
+	return true;
+}
+
+void myCharTest()
+{
+	char c1[10];
+	char c2[10];
+	for (int i = 0; i < 10; ++i)
+	{
+			c2 = 'a';
+	}
+	strcpy(c1,c2);
+	printf("%s\n", c1);
+}
+void strTest()
+{
+	// const char* baseptr = "abcdefg";
+	// const char* subStr = "dg";
+	// int idx = findSubStr(baseptr,subStr);
+	// printf("%d", idx);
+	// myCharTest()
+	const char* mystr =  "123454321";
+	int result = huiWenTest(mystr,9);
+	printf("%d\n", result);
+}
+// 冒泡  从当前索引开始查找，只要比自己小，则调换位置
+void sorta(int array[], int n)  
+{  
+    for (int i = 0; i < n; i++)  
+    {  
+        for (int t = i + 1; t < n; t++)  
+        {  
+            if (array[i]>array[t])  
+            {  
+                int space = array[i];  
+                array[i] = array[t];  
+                array[t] = space;  
+            }  
+        }  
+    }  
+}  
+  
+// 选择  ,从当前索引开始查找，找到后面最小的那个，然后和自己调换位置
+// 与冒泡的差别在于 值交换的次数和时机
+void sortb(int array[], int n)  
+{  
+  
+    for (int i = 0; i < n - 1; i++)  
+    {  
+        int k = i;  
+  	
+        // 内循环，查找i后面所有数中最小的一个的位置，放在k中  
+        for (int j = i + 1; j<n; j++)  
+        {  
+            if (array[k] > array[j])  
+                k = j;  
+        }  
+  
+        // 如果k已经发生了变动，说明有更小的值，把它和i交换  
+        if (k != i)  
+        {  
+            int space = array[i];  
+            array[i] = array[k];  
+            array[k] = space;  
+        }  
+        for (const auto &i : array)
+        {
+        	/*code*/
+        }
+    }  
+  
+}  
+  
+// 快速  
+void sortc(int arr[],int l,int r)  
+{  
+    if (l < r)  
+    {  
+        int i = l, j = r, x = arr[l];  
+        while (i < j)  
+        {  
+            while (i < j && arr[j] >= x) // 从右向左找第一个小于x的数  
+                j--;  
+            if (i < j) // 如果找到更小的,则把当前值=小值
+                arr[i++] = arr[j];  
+  
+            while (i < j && arr[i] < x) // 从左向右找第一个大于等于x的数  
+                i++;  
+            if (i < j)  //如果找到，则把当前大值赋给 上一步找到的值
+                arr[j--] = arr[i];  
+        }  
+  
+        arr[i] = x;  
+        sortc(arr, l, i - 1); // 递归调用,分而治之  
+        sortc(arr, i + 1, r);  
+        // 10,5,11,3,4	x=10
+        // 4,5,10,3,11   x=10
+    }  
+} 
+//插入排序啦
+void InsertionSort(int *a, int len)  
+{  
+    for (int j=1; j<len; j++)  
+    {  
+        int key = a[j];  
+        int i = j-1;  
+        while (i>=0 && a[i]>key)  
+        {  
+            a[i+1] = a[i];  
+            i--;  
+        }  
+        a[i+1] = key;  
+    }  
+} 
+
+void sortQuick(int arr[],int lIdx,int rIdx){
+	if (lIdx < rIdx)
+	{
+		int tmpValue = arr[lIdx];
+		int tmpLIdx = lIdx;
+		int tmpRIdx = rIdx;
+		while(tmpLIdx < tmpRIdx){
+			while(tmpLIdx < tmpRIdx && arr[tmpRIdx] > tmpValue)
+				tmpRIdx --;
+			if (tmpLIdx < tmpRIdx)
+				arr[tmpLIdx++] = arr[tmpRIdx];
+
+			while(tmpLIdx < tmpRIdx && arr[tmpLIdx] < tmpValue)
+				tmpLIdx++ ;
+			if (tmpLIdx < tmpRIdx)
+				arr[tmpRIdx--] = arr[tmpLIdx];
+		}
+		arr[tmpLIdx] = tmpValue;
+		sortQuick(arr,lIdx,tmpLIdx-1);
+		sortQuick(arr,tmpLIdx+1,rIdx);
+	}
+}
+int findSecondMax(int arr[],int count)
+{
+	int sec_max = -32768;//arr[0]-1;
+	printf("%d\n", sec_max);
+	int fir_max	= arr[0];
+	for (int i = 1; i < count; ++i)
+	{
+		if (arr[i] > fir_max)
+		{
+			sec_max = fir_max;
+			fir_max =arr[i];
+		}
+		else
+		{
+			if (arr[i] > sec_max)
+			{
+				sec_max =arr[i];
+			}
+		}
+	}
+	return sec_max;
+}
+void sortTest()
+{
+	// int arr1[15] = {10,5,11,3,4,2,15,6,9,1,12,8,7,14};
+	// sortQuick(arr1,0,14);
+	// int idx = 0;
+	// while(idx < 15)
+	// {
+	// 	printf("%d\n",arr1[idx++] );
+	// }
+
+	// int arr[100];
+	// int idx = 0;
+	// for (int i = 0; i < 100; ++i)
+	// {
+	// 	arr[i] = i
+	// }
+	// int sec_max = findSecondMax(arr,100);
+	// printf("%d\n", sec_max);
+
+
+}
+
+struct Node
+{
+	int value ;
+	Node* next ;
+};
+typedef struct Node Node;
+// 合并两个有序的链表，结果认为一个有序的链表
+Node* mergeTwoLink(Node *head1,Node *head2)
+{
+	Node* head = NULL;
+	if (head1 == NULL && head2 == NULL )
+		head = NULL;
+	else if (head1 != NULL && head2 == NULL )
+		head = head1;
+	else if (head1 == NULL && head2 != NULL )
+		head = head2;
+	else{
+		if (head1->value < head2->value)
+		{
+			head = head1;
+			head1 = head1->next;
+		}else{
+			head = head2;
+			head2 = head2->next;
+		}
+		head->next = mergeTwoLink(head1,head2);
+	}
+	return head;
+}
+Node * reverseList(Node *head)
+{
+	assert( head != NULL )
+	if(head->next == NULL)
+		return head;
+
+	Node* curNode = head;
+	Node* nextNode = head->next;
+	head->next = NULL;
+	while(nextNode != NULL ){
+		Node* tmpNode = nextNode->next; 
+		nextNode->next = curNode;
+		curNode = nextNode;
+		nextNode = tmpNode;
+	}
+	return curNode;
+}
+
+void linkTest()
+{
+	Node* node1 = new Node;
+	Node* node3 = new Node;
+	Node* node5 = new Node;
+	Node* node7 = new Node;
+	Node* node2 = new Node;
+	Node* node4 = new Node;
+	Node* node6 = new Node;
+	Node* node8 = new Node;
+
+	node1->value = 1;
+	node3->value = 3;
+	node5->value = 5;
+	node7->value = 7;
+	node1->next = node3;
+	node3->next = node5;
+	node5->next = node7;
+	node7->next = NULL;
+
+
+	node2->value = 2;
+	node4->value = 4;
+	node6->value = 6;
+	node8->value = 8;
+
+	node2->next = node4;
+	node4->next = node6;
+	node6->next = node8;
+	node8->next = NULL;
+
+	// Node* tmpNode = mergeTwoLink(node1,node2);
+	// while(tmpNode != NULL)
+	// {
+	// 	printf("%d\n", tmpNode->value);
+	// 	tmpNode = tmpNode->next;
+	// }
+	Node* tmpNode2 = reverseList(node1);
+	while(tmpNode2 != NULL)
+	{
+		printf("%d\n", tmpNode2->value);
+		tmpNode2 = tmpNode2->next;
+	}
+}
+
+void getMemory1(char* ptr)
+{
+	ptr = (char*)malloc(100); 
+	strcpy(ptr,"Hellow World");
+	printf("%s\n", ptr);
+	free ptr;
+	ptr = NULL;
+}
+
+void memoryTest()
+{
+	char* myPtr = NULL;
+	getMemory1(myPtr);
+}
+
+
+int main(int argc, char const *argv[])
+{
+	// sortTest();
+	linkTest();
+	// strTest() ;
+
+	// int value = atol("12345");
+	// printf("%d\n",value );
+	return 0;
+}
+
+
+/*
+	1. Lua C++交互			重点	ok
+	2. 资源加密，性能优化	重点 	ok
+	2. C++基础 C11 基础算法	重点
+	3. 网络 Google Buffer 	重点	ok 	
+	4. 渲染					重点
+*/
+
+/*
+	1.图片资源的读取走了 getTextureCache()->addImage() 接口
+		然后数据的解析在下面两个接口重完成
+		static Data getData(const std::string& filename, bool forString)
+		unsigned char* FileUtils::getFileData(const std::string& filename, const char* mode, ssize_t *size)
+		需要在两个函数的最后 对char字符流进行解密即可
+
+	2.Lua文件的解密，在加载的时候有LuaEngin完成
+*/
