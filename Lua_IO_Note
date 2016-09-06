@@ -103,4 +103,55 @@ local testFunc()
 			LUA_GCCLOLECT("collect")
 		]]
 	end
+	
+	--lua 把一串汉字拆分成单独的汉字
+	function Utils:calculateStrByMaxLength(convertStr,isNeedTab, maxLen, postfix) 
+	    if convertStr == nil or type(convertStr) ~= "string" then
+	        printLog("Utils:calculateStrByMaxLength: convertStr is illegal !")
+	        return ""
+	    end
+	    local len  = #convertStr
+	    local left = 0
+	    local arr  = {0, 0xc0, 0xe0, 0xf0, 0xf8, 0xfc}
+	    local strTb = {}
+	    local start = 1
+	    local wordLen = 0
+	    while len ~= left do
+	        local tmp = string.byte(convertStr, start)
+	        local i   = #arr
+	        while arr[i] do
+	            if tmp >= arr[i] then
+	                break
+	            end
+	            i = i - 1
+	        end
+	        wordLen = i + wordLen
+	        local tmpString = string.sub(convertStr, start, wordLen)
+	        start = start + i
+	        left = left + i
+	        strTb[#strTb + 1] = tmpString
+	    end    
+	    if isNeedTab == true then   --字符小于最大长度，不需加后缀
+	        return strTb
+	    end
+	    
+	    if maxLen == nil then
+	        maxLen = #strTb
+	    end
+	    local needAddStr = false
+	    if #strTb > maxLen then
+	        needAddStr = true
+	    end
+	    maxLen = math.min(#strTb,maxLen)
+    
+	    local resultStr = ""
+	    for i=1,maxLen do
+	        resultStr = resultStr..strTb[i]
+	    end
+	    if needAddStr == true and postfix ~= nil then
+	       resultStr = resultStr .. postfix
+	    end    
+	        
+	    return resultStr
+	end
 end
